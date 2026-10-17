@@ -35,7 +35,7 @@ nbformat.write(book, "main.ipynb")
 
 Save that block as a temporary Python file and run it in the activated environment. Reruns overwrite generated benchmark outputs. The notebook imports all scientific implementation from src.
 
-## Required structure (official PDF order)
+## structure 
 
 ```text
 Qskit_Online/ (repository root)
@@ -62,9 +62,6 @@ Qskit_Online/ (repository root)
 └── assets/
     └── qff_phase1_latex_images/
 ```
-
-The required files and folders are directly at the repository root; there is no extra project/ wrapper. Supporting tests and logs are preserved in the [previous verified snapshot](https://github.com/udbhav-metla/Qskit_Online/tree/b1649850832dbf59b7008c4ebdce2fb6def905c6/support), keeping this view focused on the requested structure. The optional equation-assets directory is retained. GitHub controls the visual sorting of files and folders; the tree above presents them in the official PDF order.
-
 ## Method and settings
 
 H=-sum ZZ - sum X, J=g=1, hbar=1, initial |0000>. First-order ZZ-then-X gates use negative angles -2*t/n; n=1,2,4. Nine times: 0,.25,...,2. The independent dense reference uses SciPy expm. Logical Z0 is IIIZ and classical bit zero is the rightmost sampled bit. |0101> and an asymmetric state check mapping correctness.
