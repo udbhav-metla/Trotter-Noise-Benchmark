@@ -1,0 +1,25 @@
+{
+  "source": "Saved fixed-layout native QPY circuits at t=2.0; positive-time CSV means",
+  "steps": [
+    1,
+    2,
+    4
+  ],
+  "native_layers": {
+    "1": {
+      "A": 14,
+      "B": 14
+    },
+    "2": {
+      "A": 25,
+      "B": 25
+    },
+    "4": {
+      "A": 47,
+      "B": 47
+    }
+  },
+  "rendered_frames": 122,
+  "frame_duration_ms": 130,
+  "note": "Scheduling illustration; not a quantum-state trajectory or hardware timing."
+}
