@@ -1,0 +1,9 @@
+{
+  "fresh_kernel": true,
+  "code_cells_executed": 6,
+  "reproducibility_byte_equal": {
+    "results/tables/benchmark_results.csv": true,
+    "data/raw/counts.json": true
+  },
+  "errors": 0
+}

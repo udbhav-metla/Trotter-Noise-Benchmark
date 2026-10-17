@@ -1,0 +1,6 @@
+# Preserve exact exported bytes and recorded SHA-256 checksums across checkouts.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.qpy binary
+*.npy binary
+*.npz binary
+*.png binary

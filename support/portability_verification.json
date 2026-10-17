@@ -1,0 +1,9 @@
+{
+  "clean_zip_extracted": true,
+  "different_directory_full_grid": true,
+  "byte_equal_outputs": {
+    "results/tables/benchmark_results.csv": true,
+    "data/raw/counts.json": true
+  },
+  "cases": 108
+}

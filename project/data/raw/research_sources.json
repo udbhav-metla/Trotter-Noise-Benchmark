@@ -1,0 +1,100 @@
+[
+  {
+    "title": "IBM coupling maps",
+    "url": "https://quantum.cloud.ibm.com/docs/en/guides/represent-quantum-computers",
+    "access_date": "2026-10-13",
+    "use": "Directed coupling constraints; logical versus physical qubits.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM CouplingMap API",
+    "url": "https://quantum.cloud.ibm.com/docs/en/api/qiskit/2.3/qiskit.transpiler.CouplingMap",
+    "access_date": "2026-10-13",
+    "use": "Line/grid alternatives; heavy-hex construction is a different family. Versioned 2.3 search result consulted; implementation inspected/tested on installed version.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM heavy-hex lattice",
+    "url": "https://www.ibm.com/quantum/blog/heavy-hex-lattice",
+    "access_date": "2026-10-13",
+    "use": "Physical connectivity trades off with device engineering; dense connectivity is not automatically better hardware.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "Li, Ding, Xie: SABRE",
+    "url": "https://arxiv.org/abs/1809.02573",
+    "access_date": "2026-10-13",
+    "use": "Primary mapping research motivates heuristic layout and routing; no claim of globally optimal placement.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM compiler API",
+    "url": "https://quantum.cloud.ibm.com/docs/en/api/qiskit/compiler",
+    "access_date": "2026-10-13",
+    "use": "Native basis, seed, level, direction and callback settings.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM staged pass manager",
+    "url": "https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.transpiler.StagedPassManager",
+    "access_date": "2026-10-13",
+    "use": "Post-routing hook before translation; analysis checkpoint is read-only.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM SabreLayout",
+    "url": "https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.transpiler.passes.SabreLayout",
+    "access_date": "2026-10-13",
+    "use": "Explicit trial counts avoid CPU-dependent defaults; this pass can apply routing before the routing stage.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM SabreSwap",
+    "url": "https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.transpiler.passes.SabreSwap",
+    "access_date": "2026-10-13",
+    "use": "Seeded decay heuristic with 20 routing trials.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM TranspileLayout",
+    "url": "https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.transpiler.TranspileLayout",
+    "access_date": "2026-10-13",
+    "use": "final_index_layout maps original logical qubits to final output positions.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "IBM bit ordering",
+    "url": "https://quantum.cloud.ibm.com/docs/en/guides/bit-ordering",
+    "access_date": "2026-10-13",
+    "use": "Little-endian state indices and q3q2q1q0 display.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "Aer noise models",
+    "url": "https://qiskit.github.io/qiskit-aer/tutorials/3_building_noise_models.html",
+    "access_date": "2026-10-13",
+    "use": "Shared gate noise and symmetric readout assignment channel.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "Aer depolarizing channel",
+    "url": "https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.noise.depolarizing_error.html",
+    "access_date": "2026-10-13",
+    "use": "lambda in (1-lambda)rho + lambda I/2^n; not calibrated decoherence.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "Aer reduced density save",
+    "url": "https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.library.save_density_matrix.html",
+    "access_date": "2026-10-13",
+    "use": "Save selected qubits before measurement, then explicitly permute into logical order.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  },
+  {
+    "title": "SciPy expm",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.expm.html",
+    "access_date": "2026-10-13",
+    "use": "Dense independent matrix exponential reference.",
+    "version_note": "Web latest unless URL versioned; exact executed package versions in experiment_config.json."
+  }
+]
