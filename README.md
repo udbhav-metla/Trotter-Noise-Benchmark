@@ -35,7 +35,7 @@ nbformat.write(book, "main.ipynb")
 
 Save that block as a temporary Python file and run it in the activated environment. Reruns overwrite generated benchmark outputs. The notebook imports all scientific implementation from src.
 
-## structure 
+## Structure 
 
 ```text
 Qskit_Online/ (repository root)
