@@ -2,7 +2,7 @@
 
 ## Question and evidence
 
-How does first-order Trotter approximation interact with synthetic device noise on a five-qubit line (A) and nine-qubit square grid (B)? The executed baseline contains 108 cases and 216 paired ideal/noisy sampled runs. Primary results use SABRE placement; fixed placement is a sensitivity control. All observations below derive from `results/tables/benchmark_results.csv` and its positive-time summary, with raw counts, routing audits and density matrices retained.
+How does first-order Trotter approximation interact with synthetic device noise on a five-qubit line (A) and nine-qubit V2 heavy-hex-inspired reference graph (B)? The executed baseline contains 108 cases and 216 paired ideal/noisy sampled runs. Primary results use SABRE placement; fixed placement is a sensitivity control. All observations below derive from `results/tables/benchmark_results.csv` and its positive-time summary, with raw counts, routing audits and density matrices retained.
 
 ## Model and derivation
 
@@ -16,11 +16,9 @@ Because RX(theta)=exp(-i theta X/2) and RZZ(theta)=exp(-i theta ZZ/2), the negat
 
 ## Architecture selection before results
 
-A: nodes 0..4, links (0,1),(1,2),(2,3),(3,4). B: row-major nodes 0..8 on a 3x3 grid; horizontal links (0,1),(1,2),(3,4),(4,5),(6,7),(7,8), vertical links (0,3),(1,4),(2,5),(3,6),(4,7),(5,8). Every link is explicitly listed in both CX directions in JSON.
+A uses the V2 guide's linear-chain reference: nodes 0..4 and links (0,1),(1,2),(2,3),(3,4). B uses the exact page-2 reference: nodes 0..8 and links (0,1),(1,2),(1,6),(2,3),(2,6),(2,5),(3,4),(4,5),(5,6),(6,7),(6,8),(8,0). Every link is explicitly listed in both CX directions in JSON; bidirectionality is a shared implementation convention.
 
-The line is a minimal connected nearest-neighbor control, with four edges and maximum degree two. The grid has twelve edges and maximum degree four, with alternate paths and cycles. Both contain the four-spin path. These designs were selected before numerical evaluation to allow a legitimate null result.
-
-The planning pack's star was considered but rejected for primary A: it has no four-node simple path, which would build a disadvantage into this chain experiment. A branching tree or ring also supports a path; ring chords are not necessary for the present task. The grid offers a simple planar alternative with transparent numbering. It is not heavy-hex, not an IBM backend, and not calibrated hardware. IBM's heavy-hex discussion motivates acknowledging the engineering costs omitted by a uniform-noise graph model; it does not establish this grid as physically superior.
+The guide permits custom coupling maps. This study selects its reference architectures: A has four links and maximum degree two; B has twelve links and maximum degree five. The name heavy-hex-inspired follows the guide and does not identify a standard heavy-hex lattice or calibrated IBM device. Both graphs contain the physical path 0-1-2-3, so this four-spin workload can avoid routing even under fixed placement.
 
 ![Processor A](results/figures/processor_A_topology.png)
 ![Processor B](results/figures/processor_B_topology.png)
@@ -29,7 +27,7 @@ The planning pack's star was considered but rejected for primary A: it has no fo
 
 The two processors share basis rz/sx/x/cx, level 1, transpiler seed 42, simulator seed 42, and 4096 shots. A depolarizing channel with Aer parameter lambda=.001 follows **every rz, sx and x**; lambda=.005 follows CX. The channel is `(1-lambda)*rho + lambda*I/2**k`. Symmetric readout bit flips have p=.01. No idle, T1/T2, crosstalk or calibration model is used. Noisy RZ is an explicit common synthetic convention.
 
-The preset level-1 pipeline uses SABRE layout and routing. Trial counts are fixed at 20 (layout and swap), with three layout iterations and routing decay heuristic, to avoid CPU-count-dependent trial defaults. Optimized means heuristic-selected placement, not certified global optimality. Fixed means initial logical-to-physical [0,1,2,3]. On the row-major grid, that set is not already the logical chain, so this control is label dependent.
+The preset level-1 pipeline uses SABRE layout and routing. Trial counts are fixed at 20 (layout and swap), with three layout iterations and routing decay heuristic, to avoid CPU-count-dependent trial defaults. Optimized means heuristic-selected placement, not certified global optimality. Fixed means initial logical-to-physical [0,1,2,3]. On both reference graphs, that set already forms the logical chain. Placement remains label dependent in general.
 
 `RoutingCheckpoint`, a read-only analysis pass, records the full physical operation stream after routing and before translation. Counts refer to SWAP instructions at this checkpoint, including routing applied by SabreLayout. Source circuits have no SWAPs. The pass trace and checkpoint operations are preserved per case; replay tests compare checkpoint and final native states. Final native SWAP counts are separately reported and are not routing counts. CX/3 is never used to infer SWAPs. These audited SWAPs count inserted operations before later simplification, not a guarantee of exactly three surviving CX per SWAP.
 
@@ -58,7 +56,7 @@ Arithmetic means below use the eight positive times 0.25,0.5,...,2.0, separately
 | B | 2 | 25.000000 | 12.000000 | 0.000000 | 0.109397 | 0.572892 | 0.930677 | 0.536621 |
 | B | 4 | 47.000000 | 24.000000 | 0.000000 | 0.022500 | 0.908469 | 0.865980 | 0.787998 |
 
-Maximum absolute A/B difference in the optimized pointwise comparison: depth 0, CX 0, audited SWAPs 0, expected error 7.01e-16, and fidelity to exact 5.55e-16. Interpret numerical differences near floating-point precision as ties.
+Optimized A/B expected errors and fidelities agree to floating-point precision, with identical depths, CX counts, and zero routing SWAPs. Small sampled differences do not establish an architecture ranking.
 
 Best n **only among tested values**, minimizing mean expected absolute Z0 error over positive times:
 
@@ -66,14 +64,14 @@ Best n **only among tested values**, minimizing mean expected absolute Z0 error 
 | --- | --- | --- | --- |
 | A | fixed | 4 | 0.022500 |
 | A | optimized | 4 | 0.022500 |
-| B | fixed | 4 | 0.023254 |
+| B | fixed | 4 | 0.022500 |
 | B | optimized | 4 | 0.022500 |
 
 The trade-off is visible without forcing a crossover: from n=1 to n=4, mean noise-only fidelity drops from 0.966610 to 0.865980, but algorithm fidelity rises from 0.412778 to 0.908469. The approximation improvement wins over the added gate noise within the tested range: mean expected error decreases 0.464080 -> 0.109397 -> 0.022500. No aggregate noise crossover appears among n=1,2,4. This does not imply pointwise monotonic improvement at every time or beyond n=4.
 
-At n=4, fixed B has 4 audited SWAPs and 36 CX gates, versus zero SWAPs and 24 CX for optimized placement. Its mean fidelity to exact falls to 0.756093, versus 0.787998 optimized. Mean Z0 error changes only from 0.022500 to 0.023254. The small single-observable change does not capture the full state degradation; n=1 and n=2 fixed-B Z0 means even coincide with optimized values at displayed precision despite lower fidelities.
+Fixed placement also requires zero SWAPs on both references. At n=4, both use 24 CX gates and depth 47, with mean expected Z0 error 0.022500 and mean fidelity to exact 0.787998. The previous grid-specific routing penalty does not apply to these reference graphs.
 
-The larger processor is not guaranteed to win. This path-shaped workload can fit the line without routing; B's spare qubits and alternate routes may be unused. Fixed-placement results illustrate the cost of an unsuitable placement, not intrinsic inferiority of the grid.
+The larger processor is not guaranteed to improve this workload. The logical path fits both graphs directly, leaving B's spare qubits and alternate links unnecessary. A tied result under uniform noise is consistent with equivalent compiled gate resources; it does not imply equivalent performance on arbitrary circuits or calibrated hardware.
 
 ![Dynamics and shot uncertainty](results/figures/z0_time_evolution.png)
 ![Error and fidelity](results/figures/error_vs_trotter_steps.png)
@@ -87,25 +85,23 @@ Full fixed-placement means:
 | A | 1 | 14.000000 | 6.000000 | 0.000000 | 0.464080 | 0.400257 |
 | A | 2 | 25.000000 | 12.000000 | 0.000000 | 0.109397 | 0.536621 |
 | A | 4 | 47.000000 | 24.000000 | 0.000000 | 0.022500 | 0.787998 |
-| B | 1 | 22.000000 | 12.000000 | 2.000000 | 0.464080 | 0.393438 |
-| B | 2 | 36.000000 | 18.000000 | 2.000000 | 0.109397 | 0.527176 |
-| B | 4 | 75.000000 | 36.000000 | 4.000000 | 0.023254 | 0.756093 |
+| B | 1 | 14.000000 | 6.000000 | 0.000000 | 0.464080 | 0.400257 |
+| B | 2 | 25.000000 | 12.000000 | 0.000000 | 0.109397 | 0.536621 |
+| B | 4 | 47.000000 | 24.000000 | 0.000000 | 0.022500 | 0.787998 |
 
 ## Validation and reproducibility
 
-Test outcome: **27 passed in 4.13s**. Fresh-kernel notebook: **6 code cells**, zero execution errors. Independent CLI and notebook reruns produced byte-identical benchmark CSV and raw counts on this environment. Tests cover Hermiticity, full unitary sign/order, both basis initial states, Z0 endianness, small-time convergence, invalid inputs, graph/noise parity, native edges, routed mapping and asymmetric states, audit replay, density validity, readout-only/zero-noise behavior, uncertainty and export completeness.
+The supporting regression suite passed all **28 tests**. Results are recorded in `data/raw/processor_validation.json`. The corrected reference graphs were evaluated through a fresh execution of all six notebook code cells. All 108 configurations check native gate legality, final logical mapping, compiled ideal-state fidelity, density-matrix validity, and shot totals. The supporting regression suite additionally checks exact V2 edge sets, both CX directions, noise parity, physics conventions, audit replay, forced routing with an asymmetric state, and exported circuit hashes.
 
-Executed environment: Python 3.12.14, Qiskit 2.5.2, Aer 0.17.2. Exact direct dependencies are pinned in requirements.txt. Full installed environment, tests and reproduction commands are in the separate verification support archive. Seeds and trial counts reduce stochastic variability, but cross-version or cross-platform bitwise identity is not promised. The notebook reruns the full experiment rather than relying on hidden state.
+Executed environment: Python 3.12.14, Qiskit 2.5.2, Aer 0.17.2. Dependencies are pinned in requirements.txt. Seeds and trial counts reduce stochastic variability; cross-version or cross-platform bitwise identity is not promised.
 
 ## Limitations and next steps
 
-Delivery check: the clean project ZIP was extracted into a different local directory and the entire 108-case grid re-executed. Its benchmark CSV and raw counts were byte-identical to the original run. All six final figures were visually inspected. This checks path portability within the tested environment, not cross-platform numerical equivalence.
-
-Only two chosen graphs, one compiler seed, three n values, one time window, J=g=1 and the 0000 primary state are benchmarked. The 0101 state is a correctness control, not a second full benchmark. Qubit count, degree and edge count change together, so causal effects of qubit budget alone cannot be isolated. Fixed labels are intentionally held constant and can favor a topology. No claim is made that more steps always worsen accuracy, that state fidelity and Z0 error rank n identically, or that a universal crossover has been found. A future study could add independently selected graphs, seeds and state sensitivities while preserving official rates; it is outside this completed Phase 1 scope.
+Only two reference graphs, one compiler seed, three step counts, one time window, J=g=1, and the primary state 0000 are benchmarked. The 0101 state is a correctness control. Qubit count, degree, and edge count change together, preventing isolation of qubit-budget effects. The noise model omits thermal relaxation, idle noise, crosstalk, and calibration costs of extra links. No universal optimal Trotter count or hardware-performance advantage follows from this experiment.
 
 ## Sources and attribution
 
-Official requirements: user-supplied QFF Phase 1 Master Guide, pages 1-3, 5 and 7, read on 2026-10-13. Research URLs were consulted on 2026-10-13; API behavior was additionally tested against installed versions. The topology choice and mathematical derivation are this project's design decisions.
+Official requirements: user-supplied V2_QFF_Phase_1_Master_Guide.pdf, especially the processor table on page 2 and PS-S3 on page 5. The selected edge lists and source-document SHA-256 are recorded in data/raw/processor_reference.json. Research URLs were consulted on 2026-10-13; API behavior was additionally tested against installed versions. The processor topologies follow the selected V2 references; the noise-direction conventions and mathematical implementation are specified above.
 
 - [IBM coupling maps](https://quantum.cloud.ibm.com/docs/en/guides/represent-quantum-computers): Directed coupling constraints; logical versus physical qubits.
 - [IBM CouplingMap API](https://quantum.cloud.ibm.com/docs/en/api/qiskit/2.3/qiskit.transpiler.CouplingMap): Line/grid alternatives; heavy-hex construction is a different family. Versioned 2.3 search result consulted; implementation inspected/tested on installed version.

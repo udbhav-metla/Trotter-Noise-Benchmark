@@ -1,0 +1,74 @@
+{
+  "document": "V2_QFF_Phase_1_Master_Guide.pdf",
+  "sha256": "de836c9d9fcd659843ba3aca02a594c84e436125f82747003db9affb69b4e5e4",
+  "page": 2,
+  "note": "The guide allows custom graphs. This project selects its listed reference architectures. Both CX directions are an explicit project convention.",
+  "A_edges": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      4
+    ]
+  ],
+  "B_edges": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      8,
+      0
+    ]
+  ]
+}

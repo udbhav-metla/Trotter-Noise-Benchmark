@@ -107,5 +107,5 @@ def plot_benchmarks(frame, folder):
         ax.grid(alpha=.18)
         ax.legend(fontsize=9)
     fig.suptitle("Layout sensitivity | fixed means initial logical placement [0, 1, 2, 3]\n"
-                 "Means over eight positive times; A optimized, A fixed and B optimized overlap", fontsize=11)
+                 "Means over eight positive times; coincident curves overlap", fontsize=11)
     save(fig, folder / "layout_sensitivity.png")

@@ -1,4 +1,4 @@
-"""Participant-designed graphs and a shared synthetic noise convention."""
+"""V2 guide reference graphs and a shared synthetic noise convention."""
 import json
 from pathlib import Path
 import networkx as nx

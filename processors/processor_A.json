@@ -97,11 +97,16 @@
       0
     ]
   },
-  "justification": "Minimal connected nearest-neighbor baseline. Contains the four-spin path natively; avoids an artificially routing-constrained star.",
+  "justification": "Linear-chain Processor A reference option from the V2 guide, page 2. A connected five-qubit nearest-neighbor baseline containing the logical four-spin path.",
   "fixed_initial_layout": [
     0,
     1,
     2,
     3
-  ]
+  ],
+  "reference": {
+    "document": "V2_QFF_Phase_1_Master_Guide.pdf",
+    "page": 2,
+    "selection": "linear-chain option"
+  }
 }

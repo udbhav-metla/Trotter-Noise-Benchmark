@@ -1,0 +1,17 @@
+{
+  "reference": "processor_reference.json",
+  "regression_tests_passed": 28,
+  "fresh_notebook_code_cells": 6,
+  "benchmark_cases": 108,
+  "paired_sampled_runs": 216,
+  "minimum_compiled_ideal_fidelity": 0.9999999999999984,
+  "maximum_routing_swaps": 0,
+  "checks": [
+    "Exact V2 edge sets and bidirectional CX expansion",
+    "Shared official basis, noise rates, seed, optimization level and shots",
+    "Compiled edge legality and logical state preservation",
+    "Asymmetric forced-routing state and audit replay",
+    "Density matrices, shot totals, circuit hashes and summary consistency",
+    "Exported processor configs match current JSON files"
+  ]
+}

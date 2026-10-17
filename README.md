@@ -3,7 +3,7 @@
 **An Architectural Study of Quantum Simulation Accuracy**
 Qiskit Fall Fest Phase 1 · **PS-S3 — Noise Accumulation in Trotter Circuits**
 
-Increasing the number of Trotter steps improves the approximation of quantum dynamics, but also adds gates that can introduce noise. This project studies that tradeoff by simulating a four-spin transverse-field Ising model on two synthetic processor topologies: a five-qubit line and a nine-qubit square grid.
+Increasing the number of Trotter steps improves the approximation of quantum dynamics, but also adds gates that can introduce noise. This project studies that tradeoff by simulating a four-spin transverse-field Ising model on two synthetic processor topologies: a five-qubit line and a nine-qubit heavy-hex-inspired reference graph.
 
 The benchmark compares exact evolution, ideal Trotter circuits, and noisy circuit execution. It measures observable error, state fidelity, circuit depth, CX count, and routing overhead across **108 configurations**, with **216 paired ideal/noisy sampled runs**.
 
@@ -25,7 +25,9 @@ An independently constructed dense Hamiltonian and SciPy matrix exponential prov
 | Processor | Physical qubits | Connectivity |
 | --- | ---: | --- |
 | A | 5 | Linear chain with 4 links |
-| B | 9 | Row-major 3 × 3 square grid with 12 links |
+| B | 9 | V2 heavy-hex-inspired reference graph with 12 links |
+
+Processor A uses the V2 guide’s linear-chain option. Processor B uses its exact edge list: `(0,1), (1,2), (1,6), (2,3), (2,6), (2,5), (3,4), (4,5), (5,6), (6,7), (6,8), (8,0)`. The guide permits custom graphs; this study selects the listed references. Source details are recorded in [processor_reference.json](data/raw/processor_reference.json).
 
 Both designs support CX gates in either direction along each link. They use the same native gate set and noise parameters so the comparison can examine connectivity and placement. These are synthetic processor models, not calibrated hardware backends.
 
@@ -58,7 +60,7 @@ With optimized placement, both processors embed the four-spin chain without rout
 
 **Four Trotter steps give the lowest mean expected observable error among the tested settings.** Although additional gates increase noise, the improvement in the Trotter approximation outweighs that cost over this range. No aggregate error crossover is observed for 1, 2, and 4 steps.
 
-Fixed placement adds routing overhead on Processor B: 2, 2, and 4 SWAPs for the three step counts. At four steps, its mean expected observable error rises to **0.023254**, and its mean noisy fidelity to the exact state falls to **0.756093**. The fidelity change shows why a single observable does not capture every effect of circuit noise.
+Fixed placement `[0, 1, 2, 3]` also embeds the logical chain directly on both reference graphs. All tested configurations therefore have zero routing SWAPs. Expected errors and state fidelities agree to numerical precision; small sampled differences arise from finite-shot simulation.
 
 ![Observable error and state fidelity across Trotter step counts](results/figures/error_vs_trotter_steps.png)
 
@@ -130,4 +132,4 @@ Qskit_Online/
 
 The study uses one primary initial state, two processor graphs, one compiler seed, and three Trotter step counts. Its results do not establish a universal optimal step count or isolate qubit count from connectivity. Fixed-placement results also depend on physical-qubit labels.
 
-The noise model includes gate depolarization and readout errors, but omits thermal relaxation, idle errors, and crosstalk. Extra grid connections carry no additional calibration cost in this model. Conclusions therefore apply to the specified synthetic experiment rather than physical hardware performance.
+The noise model includes gate depolarization and readout errors, but omits thermal relaxation, idle errors, and crosstalk. Extra graph connections carry no additional calibration cost in this model. Conclusions therefore apply to the specified synthetic experiment rather than physical hardware performance.
